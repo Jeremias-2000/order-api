@@ -1,4 +1,4 @@
-package com.order.controller.impl;
+package com.order.controller;
 
 import com.order.document.User;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 public interface UserController {
 
     @GetMapping("/findAll")
-    ResponseEntity<?> findAllUsers();
+    ResponseEntity<?> findAllUsers(@RequestParam int page,@RequestParam int quantity);
 
     @GetMapping("/find/id/{id}")
     ResponseEntity<?> findUser(@PathVariable("id") String id);

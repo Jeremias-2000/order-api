@@ -8,13 +8,19 @@ import com.order.document.User;
 import com.order.service.OrderService;
 import com.order.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
+
+import static org.springframework.web.client.HttpClientErrorException.*;
 
 
 @RestController
@@ -33,8 +39,9 @@ public class ImplOrderController implements OrderController {
         }
 
         @Override
-        public ResponseEntity<?> findAll() {
-                return ResponseEntity.ok(orderService.findAllOrders());
+        public ResponseEntity<?> findAll(int page,int quantity) {
+                Pageable pagination = PageRequest.of(page, quantity);
+                return ResponseEntity.ok(orderService.findAllOrders(pagination));
         }
 
 
@@ -59,7 +66,11 @@ public class ImplOrderController implements OrderController {
 
         @Override
         public ResponseEntity<?> deleteOrderById(String orderId) {
-                orderService.deleteOrder(orderId);
-                return ResponseEntity.ok().build();
+               try {
+                       orderService.deleteOrder(orderId);
+                       return ResponseEntity.ok().build();
+               }catch (NotFound exception){
+                       return ResponseEntity.notFound().build();
+               }
         }
 }

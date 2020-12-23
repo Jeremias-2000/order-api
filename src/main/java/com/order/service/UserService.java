@@ -5,6 +5,8 @@ import com.order.repository.UserRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +24,9 @@ public class UserService {
     private UserRepository userRepository;
 
 
-    public List<User> findAllUsers(){
-        return userRepository.findAll();
+    public Page<User> findAllUsers(Pageable pageable){
+        Page<User> userPage = userRepository.findAll(pageable);
+        return userPage;
     }
 
     @SneakyThrows

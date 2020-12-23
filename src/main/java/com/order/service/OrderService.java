@@ -8,6 +8,8 @@ import com.order.repository.OrderRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +32,9 @@ public class OrderService {
     }
 
 
-    public List<Order> findAllOrders() {
-        return orderRepository.findAll();
+    public Page<Order> findAllOrders(Pageable pagination) {
+        Page<Order> orderPage = orderRepository.findAll(pagination);
+        return  orderPage;
     }
 
     @SneakyThrows
@@ -43,7 +46,9 @@ public class OrderService {
 
     @SneakyThrows
     public Order findOrder(String id){
-        return orderRepository.findById(id).orElseThrow(() -> new NotFoundException());
+        return orderRepository.findById(id)
+                .orElseThrow(()
+                -> new NotFoundException());
     }
 
 
@@ -53,7 +58,6 @@ public class OrderService {
     }
 
     public void deleteOrder(String orderId) {
-        Order search = findById(orderId);
-        orderRepository.delete(search);
+       orderRepository.deleteById(orderId);
     }
 }
