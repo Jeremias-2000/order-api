@@ -14,7 +14,7 @@ import java.util.List;
 public interface OrderController {
 
     @GetMapping("/findAllOrders")
-    ResponseEntity<?> findAll();
+    ResponseEntity<?> findAll(@RequestParam int page,@RequestParam int quantity);
 
 
     @GetMapping("/find/id/{orderId}")
