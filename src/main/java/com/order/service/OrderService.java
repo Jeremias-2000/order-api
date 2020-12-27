@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface OrderService<O> {
-    Page<O> findAllOrders(Pageable o);
+    Page<O> findAllOrders(int page,int size);
     O findById(String o);
     O save(O o);
     O update(O o);

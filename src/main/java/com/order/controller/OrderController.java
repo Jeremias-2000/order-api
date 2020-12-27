@@ -3,6 +3,7 @@ package com.order.controller;
 
 import com.order.document.Order;
 import com.order.document.Product;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.List;
 public interface OrderController {
 
     @GetMapping("/findAllOrders")
-    ResponseEntity<?> findAll(@RequestParam int page,@RequestParam int quantity);
+    ResponseEntity<?> findAll(@RequestParam int page,@RequestParam int size);
 
 
     @GetMapping("/find/id/{orderId}")

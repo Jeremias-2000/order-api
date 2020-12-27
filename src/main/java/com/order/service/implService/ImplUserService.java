@@ -6,8 +6,12 @@ import com.order.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
+
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,13 +31,16 @@ public class ImplUserService implements UserService<User> {
 
 
     public Page<User> findAllUsers(Pageable pageable){
-        Page<User> userPage = userRepository.findAll(pageable);
-       return userPage;
+        return userRepository.findAll(pageable);
     }
+
+
 
     @SneakyThrows
     public User findUser(String userId){
-        return userRepository.findById(userId).orElseThrow(() -> new NotFoundException());
+        return userRepository.findById(userId)
+                .orElseThrow(()
+                -> new NotFoundException());
     }
 
     public User findUserByCpf(String cpf) throws NotFoundException {
