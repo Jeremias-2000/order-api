@@ -38,9 +38,8 @@ public class ImplOrderController implements OrderController {
         }
 
         @Override
-        public ResponseEntity<?> findAll(int page,int quantity) {
-                Pageable pagination = PageRequest.of(page, quantity);
-                return ResponseEntity.ok(implOrderService.findAllOrders(pagination));
+        public ResponseEntity<?> findAll(int page,int size) {
+                return ResponseEntity.ok(implOrderService.findAllOrders(page,size));
         }
 
 

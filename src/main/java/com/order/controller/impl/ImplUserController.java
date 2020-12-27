@@ -4,11 +4,11 @@ import com.order.controller.UserController;
 import com.order.document.User;
 import com.order.service.implService.ImplUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
@@ -24,10 +24,12 @@ public class ImplUserController implements UserController {
 
 
     @Override
-    public ResponseEntity<?> findAllUsers(int page,int quantity) {
-        Pageable pageable = PageRequest.of(page, quantity);
+
+    public ResponseEntity<?> findAllUsers(Pageable pageable) {
         return ResponseEntity.ok(implUserService.findAllUsers(pageable));
     }
+
+
 
     @Override
     public ResponseEntity<?> findUser(String id) {
@@ -53,6 +55,6 @@ public class ImplUserController implements UserController {
     @Override
     public ResponseEntity<Void> deleteUser(String id) {
         implUserService.deleteUser(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 }
